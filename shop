@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZX Shop</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 100%;
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #5865F2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #4752c4;
+        }
+        .hidden {
+            display: none;
+        }
+        .shop-container {
+            text-align: center;
+        }
+        .product {
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .message {
+            padding: 10px;
+            background-color: #f2f2f2;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sign Up Section -->
+    <div id="signupContainer" class="container">
+        <h1>Sign Up</h1>
+        <input type="text" id="signupUsername" placeholder="Username" required>
+        <input type="email" id="signupEmail" placeholder="Email" required>
+        <input type="password" id="signupPassword" placeholder="Password" required>
+        <button id="signupButton">Sign Up</button>
+        <p>Already have an account? <a href="#" id="loginRedirect">Log in</a></p>
+    </div>
+
+    <!-- Log In Section -->
+    <div id="loginContainer" class="container hidden">
+        <h1>Log In</h1>
+        <input type="email" id="loginEmail" placeholder="Email" required>
+        <input type="password" id="loginPassword" placeholder="Password" required>
+        <button id="loginButton">Log In</button>
+        <p>Don't have an account? <a href="#" id="signupRedirect">Sign Up</a></p>
+    </div>
+
+    <!-- Shop Section -->
+    <div id="shopContainer" class="container hidden">
+        <h1>Welcome to ZX Shop</h1>
+        <div class="shop-container">
+            <div class="product">
+                <h2>Giftcard Generator</h2>
+                <p>Price: $5</p>
+                <button id="buyButton">Buy Now</button>
+            </div>
+            <div id="messageContainer" class="message hidden">
+                <p>Please DM the person on Discord: <strong>illuminatilolol10.</strong> for further information.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Store user data temporarily (you can use localStorage for persistence)
+        const users = {};
+
+        // Show appropriate section on page load
+        const signupContainer = document.getElementById('signupContainer');
+        const loginContainer = document.getElementById('loginContainer');
+        const shopContainer = document.getElementById('shopContainer');
+        const messageContainer = document.getElementById('messageContainer');
+
+        document.getElementById('loginRedirect').addEventListener('click', () => {
+            signupContainer.classList.add('hidden');
+            loginContainer.classList.remove('hidden');
+        });
+
+        document.getElementById('signupRedirect').addEventListener('click', () => {
+            loginContainer.classList.add('hidden');
+            signupContainer.classList.remove('hidden');
+        });
+
+        // Sign up logic
+        document.getElementById('signupButton').addEventListener('click', () => {
+            const username = document.getElementById('signupUsername').value.trim();
+            const email = document.getElementById('signupEmail').value.trim();
+            const password = document.getElementById('signupPassword').value.trim();
+
+            if (users[email]) {
+                alert("Email already registered.");
+            } else {
+                // Save the user
+                users[email] = { username, password };
+                alert("Sign up successful! Please log in.");
+                signupContainer.classList.add('hidden');
+                loginContainer.classList.remove('hidden');
+            }
+        });
+
+        // Log in logic
+        document.getElementById('loginButton').addEventListener('click', () => {
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
+
+            if (!users[email] || users[email].password !== password) {
+                alert("Invalid credentials.");
+            } else {
+                alert("Login successful.");
+                loginContainer.classList.add('hidden');
+                shopContainer.classList.remove('hidden');
+            }
+        });
+
+        // Buy button logic
+        document.getElementById('buyButton').addEventListener('click', () => {
+            messageContainer.classList.remove('hidden');
+        });
+    </script>
+</body>
+</html>
